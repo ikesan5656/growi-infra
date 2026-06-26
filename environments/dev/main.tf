@@ -8,18 +8,18 @@ locals {
   project_name = module.global_variables.project_name
 }
 
-/*data "oci_identity_compartments" "dev" {
+data "oci_identity_compartments" "dev" {
   compartment_id = var.tenancy_ocid
   name           = "dev"
   access_level   = "ACCESSIBLE"
-}*/
+}
 
 # コンパートメント
-/*resource "oci_identity_compartment" "this" {
+resource "oci_identity_compartment" "this" {
   compartment_id = data.oci_identity_compartments.dev.compartments[0].id # 親のコンパートメントOCID
   name           = local.project_name
   description    = "Growi compartment"
-}*/
+}
 
 # vcn
 /*module "vcn" {
