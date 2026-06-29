@@ -27,6 +27,14 @@ resource "oci_core_internet_gateway" "this" {
   vcn_id         = oci_core_vcn.this.id
 }
 
+
+# NATゲートウェイを作成
+resource "oci_core_nat_gateway" "this" {
+  compartment_id = var.compartment_id
+  vcn_id         = oci_core_vcn.this.id
+  display_name   = "growi-nat-gateway"
+}
+
 # ルートテーブルを作成
 # デフォルトルートは使用せずそのまま
 resource "oci_core_route_table" "these" {
@@ -45,13 +53,6 @@ resource "oci_core_route_table" "these" {
       destination       = "0.0.0.0/0"
       network_entity_id = oci_core_internet_gateway.this.id
     }
-  }
-
-  # NATゲートウェイを作成
-  resource "oci_core_nat_gateway" "this" {
-    compartment_id = var.compartment_id
-    vcn_id         = oci_core_vcn.this.id
-    display_name   = "growi-nat-gateway"
   }
 
   # NATゲートウェイ
