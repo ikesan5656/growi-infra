@@ -130,5 +130,5 @@ module "load_balancer" {
   source                   = "../../modules/load-balancer"
   compartment_id           = oci_identity_compartment.this.id
   target_private_ip        = module.compute.growi_instance_private_ip
-  load_balancer_subnet_ids = [module.vcn.public_subnet_ids["public"]]
+  load_balancer_subnet_ids = [module.vcn.public_subnet_ids["public_subnet"]]
 }
