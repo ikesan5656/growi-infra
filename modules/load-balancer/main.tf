@@ -4,7 +4,7 @@ resource "oci_load_balancer_load_balancer" "this" {
   compartment_id = var.compartment_id
   display_name   = "test"
   # 無料枠に抑えるための設定
-  shape = "Flexible"
+  shape = "flexible"
   shape_details {
     minimum_bandwidth_in_mbps = 10
     maximum_bandwidth_in_mbps = 10

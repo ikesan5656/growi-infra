@@ -8,8 +8,8 @@ resource "oci_core_instance" "growi" {
 
   agent_config {
     # 以下の２つは基本有効化
-    is_management_disabled = "false"
-    is_monitoring_disabled = "false"
+    is_management_disabled = false
+    is_monitoring_disabled = false
     plugins_config {
       # Oracle の WebLogic Server 管理用 WebLogicを使っている場合のみ
       desired_state = "DISABLED"
@@ -90,16 +90,16 @@ resource "oci_core_instance" "growi" {
     recovery_action = "RESTORE_INSTANCE" # 復旧後、インスタンスが実行中だった場合は、自動的に再起動される
   }
   create_vnic_details {
-    assign_ipv6ip             = "false"
-    assign_private_dns_record = "true"
-    assign_public_ip          = "true"
+    assign_ipv6ip             = false
+    assign_private_dns_record = true
+    assign_public_ip          = false
     subnet_id                 = var.compute_settings.subnet_id
     nsg_ids                   = var.compute_settings.nsg_ids
   }
   instance_options {
-    are_legacy_imds_endpoints_disabled = "false"
+    are_legacy_imds_endpoints_disabled = false
   }
-  is_pv_encryption_in_transit_enabled = "true" # データボリュームの準仮想化アタッチメントに対して転送中の暗号化を有効
+  is_pv_encryption_in_transit_enabled = true # データボリュームの準仮想化アタッチメントに対して転送中の暗号化を有効
   metadata = {
     "ssh_authorized_keys" = var.compute_settings.ssh_authorized_keys
   }
