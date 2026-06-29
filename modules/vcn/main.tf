@@ -47,8 +47,15 @@ resource "oci_core_route_table" "these" {
     }
   }
 
+  # NATゲートウェイを作成
+  resource "oci_core_nat_gateway" "this" {
+    compartment_id = var.compartment_id
+    vcn_id         = oci_core_vcn.this.id
+    display_name   = "growi-nat-gateway"
+  }
+
   # NATゲートウェイ
-  /*dynamic "route_rules" {
+  dynamic "route_rules" {
     for_each = each.value.use_nat ? [1] : []
     content {
       destination       = "0.0.0.0/0"
@@ -56,16 +63,6 @@ resource "oci_core_route_table" "these" {
       network_entity_id = oci_core_nat_gateway.this.id
     }
   }
-
-  # サービスゲートウェイ
-  dynamic "route_rules" {
-    for_each = each.value.use_sgw ? [1] : []
-    content {
-      destination       = data.oci_core_services.this.services[0].cidr_block
-      destination_type  = "SERVICE_CIDR_BLOCK"
-      network_entity_id = oci_core_service_gateway.this.id
-    }
-  }*/
 
   #Optional
 }
