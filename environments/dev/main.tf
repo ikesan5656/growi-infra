@@ -44,7 +44,7 @@ module "vcn" {
     private = {
       name    = "private-route-table"
       use_igw = false
-      use_nat = false
+      use_nat = true
       use_sgw = false
     }
   }
