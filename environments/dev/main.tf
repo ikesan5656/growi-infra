@@ -65,14 +65,17 @@ module "vcn" {
   }
   # NSG
   nsgs = {
-    web = {
-      name = "web-nsg"
+    lb_nsg = {
+      name = "lb-nsg"
+    }
+    instance_nsg = {
+      name = "growi-instance-nsg"
     }
   }
 
   nsg_rules = {
     https = {
-      nsg_key        = "web"
+      nsg_key        = "lb_nsg"
       direction      = "INGRESS"
       protocol       = "6" # TCP
       description    = "https用"
@@ -81,7 +84,7 @@ module "vcn" {
       port_range_max = "443"
     }
     http = {
-      nsg_key        = "web"
+      nsg_key        = "lb_nsg"
       direction      = "INGRESS"
       description    = "http用"
       protocol       = "6" # TCP
@@ -90,13 +93,23 @@ module "vcn" {
       port_range_max = "80"
     }
     ssh = {
-      nsg_key        = "web"
+      nsg_key        = "lb_nsg"
       direction      = "INGRESS"
       description    = "ssh用"
       protocol       = "6" # TCP
       source         = "0.0.0.0/0"
       port_range_min = "22"
       port_range_max = "22"
+    }
+    instance_growi = {
+      nsg_key   = "instance_nsg"
+      direction = "INGRESS"
+      protocol  = "6" # TCP
+      # 送信元を「VCN全体のCIDR」または「LBのいるパブリックサブネットのCIDR（例: 10.0.1.0/24）」に絞るとより安全です
+      source         = "10.0.1.0/24"
+      port_range_min = 3000
+      port_range_max = 3000
+      description    = "Allow Growi port from Load Balancer"
     }
   }
 }
@@ -109,7 +122,7 @@ module "compute" {
     name                = "Growi-free-Ampere"
     availability_domain = "zThk:AP-TOKYO-1-AD-1"
     subnet_id           = one(values(module.vcn.private_subnet_ids))
-    nsg_ids             = [module.vcn.web_nsg_id]
+    nsg_ids             = [module.vcn.instance_nsg_id]
     ssh_authorized_keys = var.ssh_authorized_keys
     shape_config = {
       name          = "VM.Standard.A1.Flex"
@@ -131,4 +144,5 @@ module "load_balancer" {
   compartment_id           = oci_identity_compartment.this.id
   target_private_ip        = module.compute.growi_instance_private_ip
   load_balancer_subnet_ids = [module.vcn.public_subnet_ids["public_subnet"]]
+  nsg_ids                  = [module.vcn.lb_nsg_id]
 }
