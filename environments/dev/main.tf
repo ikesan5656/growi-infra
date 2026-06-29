@@ -92,8 +92,8 @@ module "vcn" {
       port_range_min = "80"
       port_range_max = "80"
     }
-    ssh = {
-      nsg_key        = "lb_nsg"
+    instance_ssh = {
+      nsg_key        = "instance_nsg"
       direction      = "INGRESS"
       description    = "ssh用"
       protocol       = "6" # TCP
