@@ -1,5 +1,5 @@
 # Compute モジュールファイル
-resource "oci_core_instance" "web" {
+resource "oci_core_instance" "growi" {
   # Required
   compartment_id      = var.compartment_id
   availability_domain = var.compute_settings.availability_domain
@@ -101,7 +101,7 @@ resource "oci_core_instance" "web" {
   }
   is_pv_encryption_in_transit_enabled = "true" # データボリュームの準仮想化アタッチメントに対して転送中の暗号化を有効
   metadata = {
-    "ssh_authorized_keys" = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDevMYbT9Sf6zuobjZVFWxrkYXzmfLXf6c85gxqi+sEnGByLZ12PoeQnSbCcg3sjIU0L4XrUTziL5DSUlDTxq/cZ4D3D9B5jKdvfgtu6IvqXO9GOQrACYkGiKGgOZLCHJ43zeYiEliBKW9Ye6lURhz7ksiN+MNnf+VcgSqj7SxUkskSDo1tPsjdzaZuOF7R5wA36gnx+BUjvZ+GeBv2EzO9vwB1TdGoygVPDwd8BTjERAJhS7o8yCUOd5BqPA+waiPNiH2nCLCu8oR1m4KtDGCt7KtLG7nyvlYfmNVde0avwbtuJzHyqVecuqiXSvm+ziYJ87cuYXstJbebPXofy7X6il2ezhQTsyV2zeMg+3KL8j3bskoSG9EP/gb6x0A3X5DahOmg2dbzRTh9AGcmyxWf/QMyJtFhr63JNuCqrWKreMxdES3PQ/6JwoKkrZW+SYC4v3l4bhrp+2DbnumsvX6sUqYYRrl1JA7PTwFxgTEDRDD6wi8ATwfPP+Wl/cHDsTb9oqRVkNk1gKvRCFSY0RQeoUCdClSdJMDxLGiFU056/e71nyeeoyqfA9bU7FLNut94AJZmj2OriK4krVbSG0QoMQDkm6BSdjDBMKganKCcVg9s4oDp949rtKAl4jaqUk76jFSWSttcKy3CAH82Nl5orKx5vfCNqNNHBjsQ0yJ94Q== yuta_ikenoya@MacBook-Air.local"
+    "ssh_authorized_keys" = var.compute_settings.ssh_authorized_keys
   }
   # シェープの性能
   shape_config {
