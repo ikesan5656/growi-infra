@@ -102,6 +102,7 @@ resource "oci_core_instance" "growi" {
   is_pv_encryption_in_transit_enabled = true # データボリュームの準仮想化アタッチメントに対して転送中の暗号化を有効
   metadata = {
     "ssh_authorized_keys" = var.compute_settings.ssh_authorized_keys
+    "user_data"           = base64encode(file("${path.module}/setup.sh"))
   }
   # シェープの性能
   shape_config {

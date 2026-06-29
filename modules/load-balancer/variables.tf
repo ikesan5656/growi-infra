@@ -12,3 +12,8 @@ variable "load_balancer_subnet_ids" {
   description = "対象のサブネット"
   type        = list(string)
 }
+
+variable "nsg_ids" {
+  description = "NSG ID"
+  type        = list(string)
+}
