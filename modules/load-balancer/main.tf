@@ -14,7 +14,7 @@ resource "oci_load_balancer_load_balancer" "this" {
   # Optional
   is_private = false
 
-  network_security_group_ids = []
+  network_security_group_ids = var.nsg_ids
 }
 
 # バックエンド(Growi)のOCIインスタンス向けの設定
@@ -42,12 +42,11 @@ resource "oci_load_balancer_backend" "growi_backend" {
 }
 
 resource "oci_load_balancer_listener" "https_listener" {
-  load_balancer_id           = oci_load_balancer_load_balancer.this.id
-  name                       = "https-listener"
-  default_backend_set_name   = oci_load_balancer_backend_set.growi.name
-  port                       = 443
-  protocol                   = "HTTP"
-  network_security_group_ids = var.nsg_ids
+  load_balancer_id         = oci_load_balancer_load_balancer.this.id
+  name                     = "https-listener"
+  default_backend_set_name = oci_load_balancer_backend_set.growi.name
+  port                     = 443
+  protocol                 = "HTTP"
 
   # SSL証明書の設定（証明書リソースを別途作成して紐付ける）
   /*ssl_configuration {
