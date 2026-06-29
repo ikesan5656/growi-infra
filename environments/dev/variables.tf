@@ -26,3 +26,9 @@ variable "fingerprint" {
   type        = string
   sensitive   = true
 }
+
+variable "ssh_authorized_keys" {
+  description = "webサーバーSSH公開鍵"
+  type        = string
+  sensitive   = true
+}
